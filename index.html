@@ -3,10 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  
+  <!-- 添加Google Noto字體，支援中文顯示 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+  
   <title>amy地藏菩薩本願經抄經程式</title>
   <style>
     body {
-      font-family: "標楷體", "Microsoft JhengHei", serif;
+      font-family: "標楷體", "Microsoft JhengHei", "Noto Serif TC", "DFKai-SB", "BiauKai", "STKaiti", "KaiTi", "SimSun", serif;
       background-color: #e0b32b;
       color: #333;
       margin: 0;
@@ -24,7 +30,7 @@
       max-width: 800px;
     }
     h2 {
-      font-family: "標楷體", "Microsoft JhengHei", serif;
+      font-family: "標楷體", "Microsoft JhengHei", "Noto Serif TC", "DFKai-SB", "BiauKai", "STKaiti", "KaiTi", "SimSun", serif;
       font-size: 14px;
       color: #8b4513;
       text-align: center;
@@ -68,6 +74,7 @@
       white-space: pre-line;
       writing-mode: vertical-rl;
       text-orientation: upright;
+      font-family: "標楷體", "Microsoft JhengHei", "Noto Serif TC", "DFKai-SB", "BiauKai", "STKaiti", "KaiTi", "SimSun", serif;
     }
     .writing-area {
       position: absolute;
@@ -87,16 +94,20 @@
       letter-spacing: 5px;
       white-space: pre-line;
       ime-mode: active;
+      font-family: "標楷體", "Microsoft JhengHei", "Noto Serif TC", "DFKai-SB", "BiauKai", "STKaiti", "KaiTi", "SimSun", serif;
     }
     .writing-area span {
       color: black;
+      font-family: "標楷體", "Microsoft JhengHei", "Noto Serif TC", "DFKai-SB", "BiauKai", "STKaiti", "KaiTi", "SimSun", serif;
     }
     .writing-area .correct {
       color: rgb(15, 16, 15);
+      font-family: "標楷體", "Microsoft JhengHei", "Noto Serif TC", "DFKai-SB", "BiauKai", "STKaiti", "KaiTi", "SimSun", serif;
     }
     .writing-area .incorrect {
       color: red;
       text-decoration: underline;
+      font-family: "標楷體", "Microsoft JhengHei", "Noto Serif TC", "DFKai-SB", "BiauKai", "STKaiti", "KaiTi", "SimSun", serif;
     }
     .controls {
       margin: 20px 0;
@@ -105,7 +116,7 @@
       max-width: 800px;
     }
     button {
-      font-family: "標楷體", "Microsoft JhengHei", serif;
+      font-family: "標楷體", "Microsoft JhengHei", "Noto Serif TC", "DFKai-SB", "BiauKai", "STKaiti", "KaiTi", "SimSun", serif;
       background-color: #8b4513;
       color: white;
       border: none;
@@ -124,6 +135,11 @@
       font-size: 18px;
       width: 100%;
       max-width: 800px;
+      font-family: "標楷體", "Microsoft JhengHei", "Noto Serif TC", "DFKai-SB", "BiauKai", "STKaiti", "KaiTi", "SimSun", serif;
+    }
+
+    #progress {
+      font-family: "標楷體", "Microsoft JhengHei", "Noto Serif TC", "DFKai-SB", "BiauKai", "STKaiti", "KaiTi", "SimSun", serif;
     }
 
     .top-controls {
@@ -151,20 +167,23 @@
       font-size: 16px;
       border-radius: 5px;
       min-width: 200px;
-      font-family: inherit;
+      font-family: "標楷體", "Microsoft JhengHei", "Noto Serif TC", "DFKai-SB", "BiauKai", "STKaiti", "KaiTi", "SimSun", serif;
     }
     .chapter-select label {
       font-size: 16px;
-      min-width: 300px
+      min-width: 300px;
       margin-right: 4px; /* ← 加這行，或依照你想往左的距離調整數值 */
+      font-family: "標楷體", "Microsoft JhengHei", "Noto Serif TC", "DFKai-SB", "BiauKai", "STKaiti", "KaiTi", "SimSun", serif;
     }
     #chapter {
       font-size: 18px;
+      font-family: "標楷體", "Microsoft JhengHei", "Noto Serif TC", "DFKai-SB", "BiauKai", "STKaiti", "KaiTi", "SimSun", serif;
     }
     #autosave-status {
       font-size: 14px;
       color: #555;
       margin-top: 5px;
+      font-family: "標楷體", "Microsoft JhengHei", "Noto Serif TC", "DFKai-SB", "BiauKai", "STKaiti", "KaiTi", "SimSun", serif;
     }
     .clear-all-btn {
       margin-left:10px;
@@ -175,6 +194,7 @@
       font-size: 18px;
       color: #8b4513;
       margin-left: 20px;
+      font-family: "標楷體", "Microsoft JhengHei", "Noto Serif TC", "DFKai-SB", "BiauKai", "STKaiti", "KaiTi", "SimSun", serif;
     }
     .chapter-controls {
       display: flex;
