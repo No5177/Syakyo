@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <!-- 添加Google Noto字體，支援中文顯示 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+  
+    
+  <title>般若波羅密多心經</title>
+  <style>
+    body {
+      font-family: "標楷體", "Microsoft JhengHei", serif;
+      background-color: #e0b32b;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      color: #8b4513;
+      text-align: center;
+      border-bottom: 1px solid #8b4513;
+      padding-bottom: 10px;
+      width: 100%;
+      max-width: 800px;
+    }
+    h2 {
+      font-family: "標楷體", "Microsoft JhengHei", serif;
+      font-size: 16px;
+      color: #8b4513;
+      text-align: center;
+      margin-top: -15px;
+      margin-bottom: 5px;
+      border-bottom: 1px solid #8b4513;
+      padding-bottom: 2px;
+      width: 100%;
+      max-width: 800px;
+      line-height: 1.2;
+    }  
+    
+    .writing-container {
+      position: relative;
+      width: 100%;
+      max-width: 1000px;
+      margin-top: 5px;
+      height: 550px;
+      border: 1px solid #d1c7b7;
+      background-color: #ece3c6;
+      padding: 20px;
+      box-sizing: border-box;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
+      line-height: 1.5;
+      overflow: auto;
+    }
+    .watermark-text {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      bottom: 20px;
+      left: 10px;
+      pointer-events: none;
+      z-index: 1;
+      color: rgba(113, 73, 5, 0.7);
+      font-size: 24px;
+      line-height:1.5;
+      letter-spacing: 5px;
+      white-space: pre-line;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
+    }
+    .writing-area {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      bottom: 20px;
+      left: 10px;
+      font-size: 24px;
+      background-color: transparent;
+      outline: none;
+      z-index: 2;
+      color:transparent;
+      caret-color: black;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
+      line-height: 1.5;
+      letter-spacing: 5px;
+      white-space: pre-line;
+      ime-mode: active;
+    }
+    .writing-area span {
+      color: black;
+    }
+    .writing-area .correct {
+      color: rgb(15, 16, 15);
+    }
+    .writing-area .incorrect {
+      color: red;
+      text-decoration: underline;
+    }
+    .controls {
+      margin: 20px 0;
+      text-align: center;
+      width: 100%;
+      max-width: 800px;
+    }
+    button {
+      font-family: "標楷體", "Microsoft JhengHei", serif;
+      background-color: #8b4513;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      margin: 0 px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+    button:hover {
+      background-color: #a0522d;
+    }
+    .progress-container {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 18px;
+      width: 100%;
+      max-width: 800px;
+    }
+    .completion-count {
+      font-size: 18px;
+      color: #8b4513;
+      margin-left: 20px;
+    }
+    .reset-count-btn {
+      background-color: #d9534f;
+    }
+    .reset-count-btn:hover {
+      background-color: #c9302c;
+    }
+    .clear-btn {
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>般 若 波 羅 密 多 心 經</h1>
+  <h2>唐 三藏法師玄奘譯</h2>
+
+  <div class="controls">
+    <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+      <button id="saveBtn">保存進度</button>
+      <button id="loadBtn">載入進度</button>
+      <button id="clearBtn" class="clear-btn">清空進度</button>
+      <div class="completion-count" id="completionCount">已完成遍數: 0</div>
+      <button id="resetCountBtn" class="reset-count-btn">重置遍數</button>
+    </div>
+    <div id="autosave-status"></div>
+  </div>
+
+  <div class="writing-container">
+    <div class="watermark-text" id="watermarkText"></div>
+    <div class="writing-area" id="userInput" contenteditable="true" spellcheck="false"></div>
+  </div>
+
+  <div class="progress-container">
+    <div id="progress">進度: 0%</div>
+  </div>
+
+  <script>
+    const sutraText = `般若波羅密多心經\n觀自在菩薩。行深般若波羅蜜多時。照見五蘊皆空。度一切苦厄。舍利子。色不異空。空不異色。色即是空。空即是色。受想行識。亦復如是。舍利子。是諸法空相。不生不滅。不垢不淨。不增不減。是故空中無色。無受想行識。無眼耳鼻舌身意。無色聲香味觸法。無眼界。乃至無意識界。無無明。亦無無明盡。乃至無老死。亦無老死盡。無苦集滅道。無智亦無得。以無所得故。菩提薩埵。依般若波羅蜜多故。心無罣礙。無罣礙故。無有恐怖。遠離顛倒夢想。究竟涅槃。三世諸佛。依般若波羅蜜多故。得阿耨多羅三藐三菩提。故知般若波羅蜜多。是大神咒。是大明咒。是無上咒。是無等等咒。能除一切苦。真實不虛。故說般若波羅蜜多咒。即說咒曰\n揭諦揭諦 波羅揭諦 波羅僧揭諦 菩提薩婆訶\n願以此功德 莊嚴佛淨土\n上報四重恩 下濟三塗苦\n若有見聞者 悉發菩提心\n盡此一報身 同生極樂國`
+
+    let isComposing = false;
+    const watermarkText = document.getElementById('watermarkText');
+    const userInput = document.getElementById('userInput');
+    const saveBtn = document.getElementById('saveBtn');
+    const loadBtn = document.getElementById('loadBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const progress = document.getElementById('progress');
+    const autosaveStatus = document.getElementById('autosave-status');
+    const completionCount = document.getElementById('completionCount');
+    const resetCountBtn = document.getElementById('resetCountBtn');
+
+    function renderWatermark(text) {
+      watermarkText.innerHTML = '';
+      for (let char of text) {
+        if (char === '\n') {
+          watermarkText.innerHTML += '<br>';
+        } else {
+          const span = document.createElement('span');
+          span.textContent = char;
+          watermarkText.appendChild(span);
+        }
+      }
+    }
+
+    function updateProgress() {
+      const entered = userInput.innerText.replace(/\n/g, '');
+      const sutraWithoutNewlines = sutraText.replace(/\n/g, '');
+      const percent = Math.min(100, Math.round((entered.length / sutraWithoutNewlines.length) * 100));
+      progress.textContent = `進度: ${percent}%`;
+      
+      // 檢查是否完成
+      if (percent === 100) {
+        checkAndUpdateCompletionCount();
+      }
+    }
+
+    function checkAndUpdateCompletionCount() {
+      const data = localStorage.getItem('heartSutraProgress');
+      if (data) {
+        const parsed = JSON.parse(data);
+        const entered = parsed.text.replace(/\n/g, '');
+        const sutraWithoutNewlines = sutraText.replace(/\n/g, '');
+        
+        if (entered.length === sutraWithoutNewlines.length) {
+          // 增加遍數
+          let count = localStorage.getItem('heartSutraCompletionCount') || 0;
+          count = parseInt(count) + 1;
+          localStorage.setItem('heartSutraCompletionCount', count);
+          
+          // 清空進度
+          localStorage.removeItem('heartSutraProgress');
+          userInput.innerHTML = '';
+          
+          // 更新顯示
+          updateCompletionCountDisplay();
+          alert(`恭喜完成第 ${count} 遍抄經！已重置以便重新開始。`);
+          
+          // 重新載入
+          loadProgress();
+        }
+      }
+    }
+
+    function updateCompletionCountDisplay() {
+      const count = localStorage.getItem('heartSutraCompletionCount') || 0;
+      completionCount.textContent = `已完成遍數: ${count}`;
+    }
+
+    function updateUserDisplay() {
+      if (isComposing) return;
+      
+      const typed = userInput.innerText;
+      userInput.innerHTML = '';
+      
+      let sutraIndex = 0;
+      for (let i = 0; i < typed.length; i++) {
+        if (typed[i] === '\n') {
+          userInput.innerHTML += '<br>';
+          continue;
+        }
+        
+        const span = document.createElement('span');
+        span.textContent = typed[i];
+        
+        // 跳過水印中的換行符
+        while (sutraIndex < sutraText.length && sutraText[sutraIndex] === '\n') {
+          sutraIndex++;
+        }
+        
+        if (sutraIndex < sutraText.length && typed[i] === sutraText[sutraIndex]) {
+          span.className = 'correct';
+        } else {
+          span.className = 'incorrect';
+        }
+        
+        userInput.appendChild(span);
+        sutraIndex++;
+      }
+      
+      updateProgress();
+      placeCaretAtEnd(userInput);
+    }
+
+    function placeCaretAtEnd(el) {
+      el.focus();
+      const range = document.createRange();
+      const sel = window.getSelection();
+      range.selectNodeContents(el);
+      range.collapse(false);
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+
+    function saveProgress() {
+      const cleanText = userInput.innerText;
+      const data = {
+        text: cleanText,
+        timestamp: new Date().toISOString()
+      };
+      localStorage.setItem('heartSutraProgress', JSON.stringify(data));
+      autosaveStatus.textContent = `自動儲存於 ${new Date().toLocaleTimeString()}`;
+    }
+
+    function loadProgress() {
+      const data = localStorage.getItem('heartSutraProgress');
+      if (data) {
+        const parsed = JSON.parse(data);
+        userInput.innerText = parsed.text;
+        updateUserDisplay();
+      } else {
+        userInput.innerHTML = '';
+      }
+    }
+
+    function clearProgress() {
+      if (confirm('確定要清空當前抄經進度嗎？此操作無法復原！')) {
+        localStorage.removeItem('heartSutraProgress');
+        userInput.innerHTML = '';
+        updateUserDisplay();
+        alert('抄經進度已清空');
+      }
+    }
+
+    // 初始化遍數顯示
+    updateCompletionCountDisplay();
+
+    // 新增輸入法事件監聽
+    userInput.addEventListener('compositionstart', () => {
+      isComposing = true;
+    });
+
+    userInput.addEventListener('compositionend', () => {
+      isComposing = false;
+      updateUserDisplay();
+    });
+
+    userInput.addEventListener('input', () => {
+      if (!isComposing) {
+        updateUserDisplay();
+      }
+    });
+
+    saveBtn.addEventListener('click', () => {
+      saveProgress();
+      alert('進度已保存');
+    });
+
+    loadBtn.addEventListener('click', () => {
+      loadProgress();
+      updateUserDisplay();
+      alert('進度已載入');
+    });
+
+    clearBtn.addEventListener('click', clearProgress);
+
+    // 自動儲存每 5 秒
+    setInterval(() => {
+      saveProgress();
+    }, 5000);
+
+    // 重置遍數按鈕功能
+    resetCountBtn.addEventListener('click', () => {
+      const count = localStorage.getItem('heartSutraCompletionCount') || 0;
+      if (parseInt(count) === 0) {
+        alert('目前遍數已為 0，無需重置。');
+        return;
+      }
+
+      if (confirm(`目前已完成 ${count} 遍抄經，是否確定要重置為 0？此操作無法復原。`)) {
+        localStorage.removeItem('heartSutraCompletionCount');
+        updateCompletionCountDisplay();
+        alert('遍數已重置為 0。');
+      }
+    });
+
+    // 初始化
+    renderWatermark(sutraText);
+    loadProgress();
+  </script>
+</body>
+</html>
