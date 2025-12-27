@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gradient-to-b from-buddhist-gold to-[#f5e7c1] min-h-screen font-serif text-gray-800;
+  }
+}

@@ -1,0 +1,6 @@
+[2025-12-27 22:36:00] Initialized .gitignore to manage version control.
+[2025-12-27 22:36:00] Created log/modify.log to track project changes.
+[2025-12-27 22:36:00] Created README.md with project setup and usage instructions.
+[2025-12-27 22:40:00] Configured vite.config.ts with 'base: ./' for GitHub Pages compatibility.
+
+[2025-12-27 22:40:00] Updated README.md with deployment instructions.
